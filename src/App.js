@@ -24,11 +24,11 @@ const scretKey = 'SGS (*^_^*) GZMR'
 app.use(expressjwt({ secret: scretKey, algorithms: ['HS256'] })
   // 不用验证Token页面
   .unless({
-    path: [/^\/users.*/, { url: /^\/page.*/, methods: ['GET'] }]
+    path: [/^\/user.*/, { url: /^\/page.*/, methods: ['GET'] }]
   }))
 
 // 导入路由模块
-const RouterList = ['/users']
+const RouterList = ['/user']
 RouterList.forEach(path => {
   app.use(`${path}`, require('./router/merge')(path))
 });
