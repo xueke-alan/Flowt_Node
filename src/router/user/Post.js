@@ -62,7 +62,7 @@ module.exports = (router) => {
     const user = await UserPassword(flowt_rbac).findOne({
       attributes: ["StaffID", 'HashPassword', 'Salt', 'SaltRounds'],
       where: { StaffID },
-      raw: true,
+      raw: true, 
     });
 
     if (user) {
