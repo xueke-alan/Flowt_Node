@@ -4,6 +4,7 @@
 const Sequelize = require('sequelize');
 const DB_Config = require('./psw/db.psw.json')
 
+
 showDatabases().then((list) => {
   console.log(list);
   list.forEach(dataBaseName => {
