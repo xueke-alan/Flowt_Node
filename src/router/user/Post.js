@@ -1,9 +1,14 @@
 
 const { flowt_rbac } = require('../../model/dateBase');
-// const { performance } = require('perf_hooks');
 const jwt = require('jsonwebtoken')
 
-const UserPassword = require("../../model/flowt_rbac/UserPassword")
+// 引入数据库表
+const UserPasswordModel = require("../../model/flowt_rbac/UserPassword")
+const UserPasswordTable = UserPasswordModel(flowt_rbac)
+
+const UserModel = require("../../model/flowt_rbac/User")
+const UserTable = UserModel(flowt_rbac)
+
 
 // const crypto = require('crypto');
 const cryptoJS = require('crypto-js/crypto-js')
@@ -31,6 +36,7 @@ function generateRandomNumber(min, max) {
  * @param keySize  hash长度
  * @return: 返回hash对象，包含salt, saltRounds, hashedPassword
  * */
+// 由于密码不通过http传输给后端，故不通过后端对原始密码进行hash加密。
 function hashPassword(password,
   salt = '12',
   saltRounds = generateRandomNumber(4000, 6000),
@@ -57,11 +63,11 @@ module.exports = (router) => {
     let { StaffID } = req.body
     console.log(StaffID);
 
-    //todo: 这里应该将user与userpassword连接起来一起查询。
-    //todo:  把 UserPassword(flowt_rbac)赋值给一个变量。
-    const user = await UserPassword(flowt_rbac).findOne({
+    const user = await UserPasswordTable.findOne({
       attributes: ["StaffID", 'HashPassword', 'Salt', 'SaltRounds'],
       where: { StaffID },
+      // TODO: datagrip 添加外键
+      // include: [{ model: UserTable, required: false }],
       raw: true,
     });
 
@@ -131,25 +137,23 @@ module.exports = (router) => {
 
   router.post('/login', async (req, res) => {
     let { StaffID, HashPasswordFormFront, newHashPassword } = req.body
-    // 将加密后的密码解密
-    const user = await UserPassword(flowt_rbac).findOne({
+    // 密码验证
+    const user = await UserPasswordTable.findOne({
       attributes: ["StaffID", 'HashPassword', 'Salt', 'SaltRounds'],
       where: { StaffID },
       raw: true,
     });
     if (user) {
-      // 密码存在，重写盐值与迭代与hash密码，返回token
+
       console.log(user);
       const verify = HashPasswordFormFront == user.HashPassword
-
+      // 密码验证一致，重写盐值与迭代与hash密码，返回token
       if (verify) {
         // 重写盐值，迭代次数，与密码
         console.log('重写密码：');
         console.log(newHashPassword);
-        await UserPassword(flowt_rbac).update({ ...newHashPassword }, {
-          where: {
-            StaffID: user.StaffID
-          }
+        await UserPasswordTable.update({ ...newHashPassword }, {
+          where: { StaffID }
         });
 
         res.send({
@@ -165,7 +169,7 @@ module.exports = (router) => {
         res.send({
           code: 400,
           message: "密码错误，请检查你的密码",
-          type: "success"
+          type: "error"
         })
       }
 
@@ -174,7 +178,7 @@ module.exports = (router) => {
       res.send({
         code: 400,
         message: "账号出现登录错误，请联系管理员",
-        type: "success"
+        type: "error"
       })
     }
 
