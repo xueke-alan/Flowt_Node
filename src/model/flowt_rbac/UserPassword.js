@@ -42,6 +42,15 @@ module.exports = sequelize => {
       autoIncrement: false,
       comment: null,
       field: "SaltRounds"
+    },
+    valid_until: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "valid_until"
     }
   };
   const options = {

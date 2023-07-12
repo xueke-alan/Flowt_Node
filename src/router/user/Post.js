@@ -1,6 +1,10 @@
 
+const Sequelize = require('sequelize');
 const { flowt_rbac } = require('../../model/dateBase');
 const jwt = require('jsonwebtoken')
+
+const scretKey = 'SGS (*^_^*) GZMR'
+const dayjs = require('dayjs');
 
 // 引入数据库表
 const UserPasswordModel = require("../../model/flowt_rbac/UserPassword")
@@ -10,84 +14,79 @@ const UserModel = require("../../model/flowt_rbac/User")
 const UserTable = UserModel(flowt_rbac)
 
 
-// const crypto = require('crypto');
-const cryptoJS = require('crypto-js/crypto-js')
+// 创建连接关系
+UserPasswordTable.belongsTo(UserTable, { foreignKey: 'StaffID', targetKey: 'StaffID' });
+UserTable.hasOne(UserPasswordTable, { foreignKey: 'StaffID', sourceKey: 'StaffID' });
 
+console.log("UserPasswordTable", "UserTable", "Connect Success");
 
-const scretKey = 'SGS (*^_^*) GZMR'
-
-/**
- * @description: 生成一个随机数，可以生成一个迭代次数
- * @param min  最小值
- * @param max  最大值
- * @return: 返回值是一个介于这之间的整数
- * */
-function generateRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-
-
-/**
- * @description: 生成一个hash密码
- * @param password  原密码
- * @param salt  盐值
- * @param saltRounds  迭代次数
- * @param keySize  hash长度
- * @return: 返回hash对象，包含salt, saltRounds, hashedPassword
- * */
-// 由于密码不通过http传输给后端，故不通过后端对原始密码进行hash加密。
-function hashPassword(password,
-  salt = '12',
-  saltRounds = generateRandomNumber(4000, 6000),
-  keySize = 8
-) {
-  const startTime = performance.now(); // 记录开始时间
-
-
-  const hashedPassword = cryptoJS.PBKDF2(password, salt, {
-    keySize: 8,
-    iterations: 5714
-  }).toString(cryptoJS.enc.Hex)
-
-
-  const endTime = performance.now(); // 记录结束时间
-  const executionTime = endTime - startTime; // 计算代码执行毫秒数
-  console.log(executionTime + "ms");
-  return { salt, saltRounds, hashedPassword };
-}
-
-
+// 建立路由
 module.exports = (router) => {
+  // 预登录，在这里检验账号是否存在
   router.post('/preLogin', async (req, res) => {
     let { StaffID } = req.body
     console.log(StaffID);
+    const user = await UserTable.findOne(
+      {
+        attributes: ["StaffID"],
+        where: { StaffID },
+        include: [
+          {
+            model: UserPasswordTable,
+            attributes: ["Salt", "SaltRounds", "valid_until"],
+          },
+        ],
+        raw: true,
+        nest: true,
+      }
+    )
 
-    const user = await UserPasswordTable.findOne({
-      attributes: ["StaffID", 'HashPassword', 'Salt', 'SaltRounds'],
-      where: { StaffID },
-      // TODO: datagrip 添加外键
-      // include: [{ model: UserTable, required: false }],
-      raw: true,
-    });
+    console.log(user);
 
-    if (user) {
-      res.send({
-        code: 200,
-        message: "ok",
-        type: "success",
-        result: {
-          saltRounds: user.SaltRounds,
-          salt: user.Salt,
-        }
-      })
-    } else {
+    if (!user) {
       res.send({
         code: 400,
-        message: "账号错误或不存在，请联系管理员",
-        type: "success"
-      })
+        type: "error",
+        message: "账号不存在",
+      });
+      return;
     }
+
+    const { UserPassword_model } = user;
+
+    if (!UserPassword_model.SaltRounds || !UserPassword_model.Salt) {
+      res.send({
+        code: 400,
+        message: "账号异常，请联系管理员",
+        type: "error"
+      });
+      return;
+    }
+
+    if (!UserPassword_model.valid_until || dayjs(UserPassword_model.valid_until).isAfter(dayjs())) {
+      console.log('账号有效期 在当前时间之后，或者不存在');
+    } else {
+      console.log('账号有效期 过期');
+      res.send({
+        code: 400,
+        message: "账号已失效，请联系您的管理员",
+        type: "error"
+      });
+      return;
+    }
+
+    res.send({
+      code: 200,
+      message: "ok",
+      type: "success",
+      result: {
+        StaffID,
+        saltRounds: UserPassword_model.SaltRounds,
+        salt: UserPassword_model.Salt,
+      }
+    });
+
+
   })
 
 

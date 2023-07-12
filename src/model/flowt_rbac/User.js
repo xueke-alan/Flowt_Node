@@ -10,7 +10,8 @@ module.exports = sequelize => {
       primaryKey: true,
       autoIncrement: false,
       comment: null,
-      field: "UserID"
+      field: "UserID",
+      unique: "UserID"
     },
     StaffID: {
       type: DataTypes.STRING(50),
