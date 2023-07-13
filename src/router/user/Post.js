@@ -1,7 +1,6 @@
-
-const Sequelize = require('sequelize');
 const { flowt_rbac } = require('../../model/dateBase');
 const jwt = require('jsonwebtoken')
+
 
 const scretKey = 'SGS (*^_^*) GZMR'
 const dayjs = require('dayjs');
@@ -24,7 +23,10 @@ console.log("UserPasswordTable", "UserTable", "Connect Success");
 module.exports = (router) => {
   // 预登录，在这里检验账号是否存在
   router.post('/preLogin', async (req, res) => {
+
     let { StaffID } = req.body
+    if (!StaffID) { return res.sendf[404]("获取StaffID失败") }
+
     console.log(StaffID);
     const user = await UserTable.findOne(
       {
@@ -43,55 +45,32 @@ module.exports = (router) => {
 
     console.log(user);
 
-    if (!user) {
-      res.send({
-        code: 400,
-        type: "error",
-        message: "账号不存在",
-      });
-      return;
-    }
+    if (!user) { return res.sendf[404]("账号不存在") }
 
     const { UserPassword_model } = user;
 
     if (!UserPassword_model.SaltRounds || !UserPassword_model.Salt) {
-      res.send({
-        code: 400,
-        message: "账号异常，请联系管理员",
-        type: "error"
-      });
-      return;
+      return res.sendf[404]("账号异常，请联系管理员")
     }
 
     if (!UserPassword_model.valid_until || dayjs(UserPassword_model.valid_until).isAfter(dayjs())) {
-      console.log('账号有效期 在当前时间之后，或者不存在');
+      valid_until = UserPassword_model.valid_until
     } else {
-      console.log('账号有效期 过期');
-      res.send({
-        code: 400,
-        message: "账号已失效，请联系您的管理员",
-        type: "error"
-      });
-      return;
+      return res.sendf[410]("账号已失效，请联系您的管理员")
     }
 
-    res.send({
-      code: 200,
-      message: "ok",
-      type: "success",
-      result: {
-        StaffID,
-        saltRounds: UserPassword_model.SaltRounds,
-        salt: UserPassword_model.Salt,
-      }
-    });
-
+    res.sendf[200]({
+      StaffID,
+      saltRounds: UserPassword_model.SaltRounds,
+      salt: UserPassword_model.Salt,
+      valid_until
+    })
 
   })
 
 
   router.get('/admin_info', async (req, res) => {
-
+    // 创建 RES_SEND 发送器
     // 返回用户信息
 
     res.send({
@@ -135,6 +114,7 @@ module.exports = (router) => {
 
 
   router.post('/login', async (req, res) => {
+    // 创建 RES_SEND 发送器
     let { StaffID, HashPasswordFormFront, newHashPassword } = req.body
     // 密码验证
     const user = await UserPasswordTable.findOne({
@@ -186,6 +166,7 @@ module.exports = (router) => {
 
 
   router.post('/sendResetPswEmail', async (req, res) => {
+    // 创建 RES_SEND 发送器
     // 拿到验证码，邮箱，StaffID
 
     // 验证验证码是否正确，
@@ -193,6 +174,7 @@ module.exports = (router) => {
   })
 
   router.post('/changePsw', async (req, res) => {
+    // 创建 RES_SEND 发送器
     // 如何安全的发送请求到这个路由不是这个路由考虑的问题。
 
     // 拿到盐值，迭代次数，hash密码，直接按StaffID查行替换

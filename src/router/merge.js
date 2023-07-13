@@ -10,7 +10,6 @@ module.exports = (path) => {
   ['Get', 'Put', 'Post', 'Delete']
     .forEach((m) => {
       try {
-        // require('../router/lateOrder')
         require(`.${path}/${m}.js`)(router)
       } catch (_) { }
     })

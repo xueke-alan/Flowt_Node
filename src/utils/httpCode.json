@@ -1,0 +1,283 @@
+[
+  {
+    "code": 100,
+    "type": "Continue",
+    "message": "客户端应当继续发送请求"
+  },
+  {
+    "code": 101,
+    "type": "Switching Protocols",
+    "message": "切换协议"
+  },
+  {
+    "code": 102,
+    "type": "Processing",
+    "message": "代表处理将被继续执行"
+  },
+  {
+    "code": 200,
+    "type": "OK",
+    "message": "请求已成功"
+  },
+  {
+    "code": 201,
+    "type": "Created",
+    "message": "已创建"
+  },
+  {
+    "code": 202,
+    "type": "Accepted",
+    "message": "已接受"
+  },
+  {
+    "code": 203,
+    "type": "Non-Authoritative Information",
+    "message": "非授权信息"
+  },
+  {
+    "code": 204,
+    "type": "No Content",
+    "message": "无内容"
+  },
+
+  {
+    "code": 205,
+    "type": "Reset Content",
+    "message": "重置内容"
+  },
+  {
+    "code": 206,
+    "type": "Partial Content",
+    "message": "部分内容"
+  },
+  {
+    "code": 207,
+    "type": "Multi-Status",
+    "message": "消息体将是一个XML消息"
+  },
+  {
+    "code": 300,
+    "type": "Multiple Choices",
+    "message": "多种选择"
+  },
+  {
+    "code": 301,
+    "type": "Moved Permanently",
+    "message": "永久移动"
+  },
+  {
+    "code": 302,
+    "type": "Move Temporarily",
+    "message": "请求的资源临时从不同的 URI响应请求"
+  },
+  {
+    "code": 303,
+    "type": "See Other",
+    "message": "对应当前请求的响应可以在另一个 URL 上被找到"
+  },
+  {
+    "code": 304,
+    "type": "Not Modified",
+    "message": "文档的内容并没有改变"
+  },
+  {
+    "code": 305,
+    "type": "Use Proxy",
+    "message": "被请求的资源必须通过指定的代理才能被访问"
+  },
+  {
+    "code": 307,
+    "type": "Temporary Redirect",
+    "message": "请求的资源临时从不同的URI 响应请求"
+  },
+  {
+    "code": 400,
+    "type": "Bad Request",
+    "message": "客户端请求的语法错误，服务器无法理解"
+  },
+  {
+    "code": 401,
+    "type": "Unauthorized",
+    "message": "当前请求需要用户验证"
+  },
+  {
+    "code": 402,
+    "type": "Payment Required",
+    "message": "该状态码是为了将来可能的需求而预留的"
+  },
+  {
+    "code": 403,
+    "type": "Forbidden",
+    "message": "服务器已经理解请求，但是拒绝执行它"
+  },
+  {
+    "code": 404,
+    "type": "Not Found",
+    "message": "请求失败，请求所希望得到的资源未被在服务器上发现"
+  },
+  {
+    "code": 405,
+    "type": "Method Not Allowed",
+    "message": "请求行中指定的请求方法不能被用于请求相应的资源"
+  },
+  {
+    "code": 406,
+    "type": "Not Acceptable",
+    "message": "服务器无法根据客户端请求的内容特性完成请求"
+  },
+  {
+    "code": 407,
+    "type": "Proxy Authentication Required",
+    "message": "请求要求代理的身份认证"
+  },
+  {
+    "code": 408,
+    "type": "Request Time-out",
+    "message": "服务器等待客户端发送的请求时间过长"
+  },
+  {
+    "code": 409,
+    "type": "Conflict",
+    "message": "服务器处理请求时发生了冲突"
+  },
+  {
+    "code": 410,
+    "type": "",
+    "message": "客户端请求的资源已经不存在"
+  },
+  {
+    "code": 411,
+    "type": "Length Required",
+    "message": "服务器无法处理客户端发送的不带Content-Length的请求信息"
+  },
+  {
+    "code": 412,
+    "type": "Precondition Failed",
+    "message": "客户端请求信息的先决条件错误"
+  },
+  {
+    "code": 413,
+    "type": "Request Entity Too Large",
+    "message": "由于请求的实体过大，服务器无法处理"
+  },
+  {
+    "code": 414,
+    "type": "Request-URI Too Large",
+    "message": "由于请求的实体过大，服务器无法处理"
+  },
+  {
+    "code": 415,
+    "type": "Unsupported Media Type",
+    "message": "服务器无法处理请求附带的媒体格式"
+  },
+  {
+    "code": 416,
+    "type": "Requested range not satisfiable",
+    "message": "客户端请求的范围无效"
+  },
+  {
+    "code": 417,
+    "type": "Expectation Failed",
+    "message": "服务器无法满足Expect的请求头信息"
+  },
+  {
+    "code": 418,
+    "type": "I'm a teapot",
+    "message": "服务器拒绝冲泡咖啡"
+  },
+  {
+    "code": 421,
+    "type": "Misdirected Request",
+    "message": "请求被指向到无法生成响应的服务器"
+  },
+  {
+    "code": 422,
+    "type": "Unprocessable Entity",
+    "message": "请求格式正确，但是由于含有语义错误，无法响应"
+  },
+  {
+    "code": 423,
+    "type": "Locked",
+    "message": "当前资源被锁定"
+  },
+  {
+    "code": 424,
+    "type": "Failed Dependency",
+    "message": "由于之前的某个请求发生的错误，导致当前请求失败"
+  },
+  {
+    "code": 425,
+    "type": "Too Early",
+    "message": "服务器不愿意冒风险来处理该请求"
+  },
+  {
+    "code": 426,
+    "type": "Upgrade Required",
+    "message": "客户端应当切换到TLS/1.0"
+  },
+  {
+    "code": 449,
+    "type": "Retry With",
+    "message": "请求应当在执行完适当的操作后进行重试"
+  },
+  {
+    "code": 451,
+    "type": "Unavailable For Legal Reasons",
+    "message": "该请求因法律原因不可用"
+  },
+  {
+    "code": 500,
+    "type": "Internal Server Error",
+    "message": "服务器错误，无法完成对请求的处理"
+  },
+  {
+    "code": 501,
+    "type": "Not Implemented",
+    "message": "服务器不支持当前请求所需要的某个功能。当服务器无法识别请求的方法，并且无法支持其对任何资源的请求"
+  },
+  {
+    "code": 502,
+    "type": "Bad Gateway",
+    "message": "作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应"
+  },
+  {
+    "code": 503,
+    "type": "Service Unavailable",
+    "message": "由于临时的服务器维护或者过载，服务器当前无法处理请求"
+  },
+  {
+    "code": 504,
+    "type": "Gateway Timeout",
+    "message": "未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应"
+  },
+  {
+    "code": 505,
+    "type": "HTTP Version Not Supported",
+    "message": "服务器不支持，或者拒绝支持在请求中使用的 HTTP 版本"
+  },
+  {
+    "code": 506,
+    "type": "Variant Also Negotiates",
+    "message": "服务器存在内部配置错误"
+  },
+  {
+    "code": 507,
+    "type": "Insufficient Storage",
+    "message": "服务器无法存储完成请求所必须的内容"
+  },
+  {
+    "code": 509,
+    "type": "Bandwidth Limit Exceeded",
+    "message": "服务器达到带宽限制"
+  },
+  {
+    "code": 510,
+    "type": "Not Extended",
+    "message": "获取资源所需要的策略并没有被满足"
+  },
+  {
+    "code": 600,
+    "type": "Unparseable Response Headers",
+    "message": "源站没有返回响应头部，只返回实体内容"
+  }
+]

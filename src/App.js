@@ -21,16 +21,19 @@ app.use(bodyParser.json({ limit: '50mb' }))
 // 安装JWT中间件
 const { expressjwt } = require('express-jwt')
 const scretKey = 'SGS (*^_^*) GZMR'
-app.use(expressjwt({ secret: scretKey, algorithms: ['HS256'] })
-  // 不用验证Token页面
-  .unless({
-    path: [/^\/user.*/, { url: /^\/page.*/, methods: ['GET'] }]
-  }))
+const unlessList = {
+  path: [/^\/user.*/, { url: /^\/page.*/, methods: ['GET'] }]
+}
+app.use(expressjwt({ secret: scretKey, algorithms: ['HS256'] }).unless(unlessList));
+
+// 导入全局功能中间件
+const setSender = require("./middleware/setSender")
+
 
 // 导入路由模块
 const RouterList = ['/user']
 RouterList.forEach(path => {
-  app.use(`${path}`, require('./router/merge')(path))
+  app.use(`${path}`, setSender, require('./router/merge')(path))
 });
 
 

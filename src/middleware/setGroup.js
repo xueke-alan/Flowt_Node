@@ -1,6 +1,7 @@
 // 中间件，通过Token查询角色的组别信息绑定在 req 上
 
 const account = require('../model/account');
+
 module.exports = async (req, res, next) => {
   console.log(111);
   console.log(req.auth.jobId);
