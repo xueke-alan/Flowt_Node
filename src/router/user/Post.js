@@ -70,46 +70,43 @@ module.exports = (router) => {
 
 
   router.get('/admin_info', async (req, res) => {
-    // 创建 RES_SEND 发送器
     // 返回用户信息
+    const info = {
 
-    res.send({
-      code: 200,
-      message: "ok",
-      type: "success",
-      result: {
-        userId: '1',
-        username: 'admin',
-        realName: 'Admin',
-        avatar: "",
-        desc: 'manager',
-        password: "",
-        token: "",
-        permissions: [
-          {
-            label: '主控台',
-            value: 'dashboard_console',
-          },
-          {
-            label: '监控页',
-            value: 'dashboard_monitor',
-          },
-          {
-            label: '工作台',
-            value: 'dashboard_workplace',
-          },
-          {
-            label: '基础列表',
-            value: 'basic_list',
-          },
-          {
-            label: '基础列表删除',
-            value: 'basic_list_delete',
-          },
-        ],
-      }
-    })
+      StaffID: 'GZ10548',
+      Username: 'Alan xue',
+      UsernameCn: '薛科',
+      UsernameGPO: 'Alan_xue',
+      Avatar: "https://res.cloudinary.com/postman/image/upload/t_team_logo/v1685442616/team/816e81aa01116ed74f82a7d65a5dd84c8f92add9fc3b6e867945873d3dbbf2f9.jpg",
+      Email: 'manager',
+      State: "1",
+      Token: "",
+      permissions: [
+        {
+          label: '主控台',
+          value: 'dashboard_console',
+        },
+        {
+          label: '监控页',
+          value: 'dashboard_monitor',
+        },
+        {
+          label: '工作台',
+          value: 'dashboard_workplace',
+        },
+        {
+          label: '基础列表',
+          value: 'basic_list',
+        },
+        {
+          label: '基础列表删除',
+          value: 'basic_list_delete',
+        },
+      ],
 
+    }
+
+    res.sendf[200](info)
   })
 
 
